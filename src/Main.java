@@ -11,7 +11,7 @@ public class Main {
         while (true) {
             try {
                 System.out.println();
-                System.out.println("Выберите операцию для списка покупок: \n1. добавить, 2. показать, 3. удалить\n(или \"end\" для выхода)");
+                System.out.println("Выберите операцию для списка покупок: \n1. добавить, 2. показать, 3. удалить, 4. найти\n(или \"end\" для выхода)");
                 String line = scanner.nextLine();
                 if ("end".equals(line)) {
                     break;
@@ -46,12 +46,27 @@ public class Main {
                         }
                         printList(products);// вызов метода вывода списка
                         break;
+                    case 4: // задача 2
+                        if (products.isEmpty()) {
+                            System.out.println("Список пустой.");
+                            continue;
+                        }
+                        System.out.println("ведите текст для поиска:");
+                        String queryLower = (scanner.nextLine()).toLowerCase();
+                        System.out.println("Найдено:");
+                        for (int i = 0; i < products.size(); i++) {
+                            String itemLower = (products.get(i)).toLowerCase();
+                            if (itemLower.contains(queryLower)) {
+                                System.out.println((i + 1) + ". " + products.get(i));
+                            }
+                        }
+                        break;
                     default:
-                        System.out.println("Такой операции \"" + choice + "\" нет. Выбор от 1 до 3");
+                        System.out.println("Такой операции \"" + choice + "\" нет. Выбор от 1 до 4");
                         System.out.println();
                 }
             } catch (NumberFormatException exception) {
-                System.out.println("циферки тыкать надо от 1 до 3");
+                System.out.println("Надо ввести число от 1 до 4");
             }
         }
         System.out.println();
