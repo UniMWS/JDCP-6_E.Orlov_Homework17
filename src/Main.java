@@ -20,9 +20,7 @@ public class Main {
                 System.out.println();
                 switch (choice) {
                     case 1:
-                        System.out.println("Какую покупку хотите добавить?");
-                        products.add(scanner.nextLine());
-                        System.out.println("Итого в списке покупок: " + products.size());
+                        addList(scanner, products);
 //                        System.out.println(products);// для контроля
                         break;
                     case 2:
@@ -30,20 +28,7 @@ public class Main {
                         break;
                     case 3:
                         if (printList(products) == null) continue;// вывод списка с проверкой на пустоту
-                        System.out.println("Какую хотите удалить? Введите номер или название");
-                        line = scanner.nextLine();
-                        try { // проверка номера
-                            int indexProduct = Integer.parseInt(line) - 1;
-                            if ((indexProduct >= 0) & (indexProduct < products.size())) {
-                                System.out.print("Покупка \"" + products.get(indexProduct) + "\" удалена. ");
-                                products.remove(indexProduct);
-                            } else System.out.printf("Нет продукта с номером \"%d\". ", (indexProduct + 1));
-                        } catch (NumberFormatException e) { // ловим название
-                            if (products.contains(line)) { // проверяем наличие в списке
-                                products.remove(line);
-                                System.out.printf("Покупка \"%s\" удалена. ", line);
-                            } else System.out.printf("В списке нет покупки \"%s\". ", line);
-                        }
+                        removeList(scanner, products);
                         printList(products);// вызов метода вывода списка
                         break;
                     case 4: // задача 2
@@ -51,15 +36,7 @@ public class Main {
                             System.out.println("Список пустой.");
                             continue;
                         }
-                        System.out.println("ведите текст для поиска:");
-                        String queryLower = (scanner.nextLine()).toLowerCase();
-                        System.out.println("Найдено:");
-                        for (int i = 0; i < products.size(); i++) {
-                            String itemLower = (products.get(i)).toLowerCase();
-                            if (itemLower.contains(queryLower)) {
-                                System.out.println((i + 1) + ". " + products.get(i));
-                            }
-                        }
+                        findList(scanner, products);
                         break;
                     default:
                         System.out.println("Такой операции \"" + choice + "\" нет. Выбор от 1 до 4");
@@ -74,6 +51,12 @@ public class Main {
         printList(products);
     }
 
+    private static void addList(Scanner scanner, List<String> products) {
+        System.out.println("Какую покупку хотите добавить?");
+        products.add(scanner.nextLine());
+        System.out.println("Итого в списке покупок: " + products.size());
+    }
+
     public static <T> T printList(List<T> products) { // метод вывода списка с проверкой заполнения
         if (products.isEmpty()) {
             System.out.println("Список пустой.");
@@ -84,5 +67,35 @@ public class Main {
             System.out.println((i + 1) + ". " + products.get(i));
         }
         return (T) products;
+    }
+
+    private static void removeList(Scanner scanner, List<String> products) {
+        String line;
+        System.out.println("Какую хотите удалить? Введите номер или название");
+        line = scanner.nextLine();
+        try { // проверка номера
+            int indexProduct = Integer.parseInt(line) - 1;
+            if ((indexProduct >= 0) & (indexProduct < products.size())) {
+                System.out.print("Покупка \"" + products.get(indexProduct) + "\" удалена. ");
+                products.remove(indexProduct);
+            } else System.out.printf("Нет продукта с номером \"%d\". ", (indexProduct + 1));
+        } catch (NumberFormatException e) { // ловим название
+            if (products.contains(line)) { // проверяем наличие в списке
+                products.remove(line);
+                System.out.printf("Покупка \"%s\" удалена. ", line);
+            } else System.out.printf("В списке нет покупки \"%s\". ", line);
+        }
+    }
+
+    private static void findList(Scanner scanner, List<String> products) {
+        System.out.println("ведите текст для поиска:");
+        String queryLower = (scanner.nextLine()).toLowerCase();
+        System.out.println("Найдено:");
+        for (int i = 0; i < products.size(); i++) {
+            String itemLower = (products.get(i)).toLowerCase();
+            if (itemLower.contains(queryLower)) {
+                System.out.println((i + 1) + ". " + products.get(i));
+            }
+        }
     }
 }
